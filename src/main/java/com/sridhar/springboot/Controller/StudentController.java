@@ -7,6 +7,7 @@ import com.sridhar.springboot.models.Student;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,20 @@ public class StudentController {
         Student response=studentService.getStudentsById(id);
         log.info("Student found successfully. Id={}", id);
         return ResponseEntity.ok().body(Map.of("Student",response));
+    }
+
+    @DeleteMapping("/student/delete/{id}")
+    public ResponseEntity<?>delete(@Min(value=1,message = "ID mustbe greater than 0") @PathVariable Long id){
+        studentService.deleteStudentById(id);
+        return ResponseEntity
+                .ok()
+                .body(Map.of("message","Student deleted successfully", "studentId",id));
+    }
+    @PutMapping("/student/update/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable @Min(value = 1, message = "ID must be greater than 0") Long id, @Valid @RequestBody StudentDto.StudentUpdateRequest request){
+        Student response =
+                studentService.updateStudent(id, request);
+
+        return ResponseEntity.ok(Map.of("message","Student updated successfully", "data",response));
     }
 }

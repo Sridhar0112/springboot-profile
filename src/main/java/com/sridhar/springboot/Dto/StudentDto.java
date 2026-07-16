@@ -46,6 +46,26 @@ public class StudentDto {
         private String phone;
     }
     @Data
+    public static class StudentUpdateRequest {
+
+        @Size(max = 25,min = 3,message = "Name must contain 3 to 20 characters")
+        private String name;
+
+        @ValidCourse
+        private String course;
+
+        @Email(message = "Invalid email format")
+        private String email;
+
+        @Pattern(
+                regexp = "^[6-9]\\d{9}$",
+                message = "Invalid mobile number"
+        )
+        private String phone;
+
+    }
+
+    @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ErrorResponse{
