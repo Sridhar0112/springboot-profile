@@ -13,3 +13,5 @@
 {"timestamp":"2026-07-17T00:05:26.6760717+05:30","level":"DEBUG","class":"com.sridhar.springboot.SpringbootApplication","message":"Running with Spring Boot v3.5.3, Spring v6.2.8"}
 {"timestamp":"2026-07-17T00:05:29.5231929+05:30","level":"DEBUG","class":"com.sridhar.springboot.logging.filter.RequestLoggingFilter","message":"Filter 'requestLoggingFilter' configured for use"}
 {"timestamp":"2026-07-17T00:15:35.1180303+05:30","level":"DEBUG","context":{"requestId":"54360f2e-73f5-412e-adf9-24e6bd66ea43","service":"student-service"},"class":"com.sridhar.springboot.Controller.StudentController","message":"Incoming student request StudentDto.StudentRequest(ID=null, name=Arun Kumar P, course=java, email=Arun7537@gmail.com, phone=9876322112)"}
+{"timestamp":"2026-07-17T01:30:59.6560033+05:30","level":"DEBUG","class":"com.sridhar.springboot.SpringbootApplication","message":"Running with Spring Boot v3.5.3, Spring v6.2.8"}
+{"timestamp":"2026-07-17T01:31:03.6724295+05:30","level":"DEBUG","class":"com.sridhar.springboot.logging.filter.RequestLoggingFilter","message":"Filter 'requestLoggingFilter' configured for use"}
