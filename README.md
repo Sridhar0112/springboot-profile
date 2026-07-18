@@ -116,7 +116,6 @@ src/main/resources/
 ├── logback-spring.xml
 └── db/migration/
 
-
 ---
 
 ## Production Configuration
