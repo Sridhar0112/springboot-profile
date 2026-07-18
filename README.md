@@ -5,6 +5,23 @@
 ![Java](https://img.shields.io/badge/Java-17-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen)
 ![Maven](https://img.shields.io/badge/Maven-3.9-orange)
+![License](https://img.shields.io/github/license/Sridhar0112/springboot-profile)
+![Last Commit](https://img.shields.io/github/last-commit/Sridhar0112/springboot-profile)
+![Repo Size](https://img.shields.io/github/repo-size/Sridhar0112/springboot-profile)
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Profiles Configuration](#profiles-configuration)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Production Setup](#production-setup)
+- [Author](#author)
 
 ---
 
@@ -44,19 +61,21 @@ The application supports different runtime environments (Development, QA, UAT, S
 
 ### Clone & Run
 
-
+```bash
 git clone https://github.com/Sridhar0112/springboot-profile.git
 cd springboot-profile
+```
 
 **Development (Default)**
+```bash
 ./mvnw spring-boot:run
-
+```
 
 **Specific Profile**
-
+```bash
 ./mvnw spring-boot:run -Dspring.profiles.active=qa
 ./mvnw spring-boot:run -Dspring.profiles.active=prod
-
+```
 
 ---
 
@@ -74,7 +93,7 @@ cd springboot-profile
 
 ## Project Structure
 
-
+```
 src/main/java/com/sridhar/springboot/
 ├── Config/
 │   ├── ProductionEnvironmentConfig.java
@@ -98,9 +117,9 @@ src/main/resources/
 ├── logback-spring.xml
 └── db/
     └── migration/
+```
 
-
-----
+---
 
 ## API Endpoints
 
@@ -131,13 +150,28 @@ DB_PASSWORD=your_secure_password
 
 ## Author
 
-**Sridhar**
-Java Spring Boot Backend Developer (2+ Years Experience)
+<table>
+<tr>
+<td>
+<strong>Sridhar</strong><br/>
+Java Spring Boot Backend Developer &nbsp;•&nbsp; 1.5+ Years Experience<br/>
+<a href="https://github.com/Sridhar0112">GitHub</a>
+</td>
+</tr>
+</table>
 
 ---
 
-⭐ **Star this repository** if you found it useful!
+<div align="center">
+
+### If this project helped you, consider giving it a star ⭐
+
+</div>
 
 ---
 
-**Focus**: Spring Profiles | Environment-Specific Configuration | SLF4J Logging | Enterprise Best Practices
+<div align="center">
+
+**Focus:** Spring Profiles · Environment-Specific Configuration · SLF4J Logging · Enterprise Best Practices
+
+</div>
