@@ -6,10 +6,11 @@ import org.springframework.context.annotation.Profile;
 
 @Slf4j
 @Configuration
-@Profile("dev")
-public class DevDataSourceConfig {
+@Profile({"staging","prod"})
+public class ProductionEnvironmentConfig {
 
-    public DevDataSourceConfig() {
-        log.info("Development DataSource Loaded - H2 Database");
+    public ProductionEnvironmentConfig(){
+       log.info("Staging/Production DataSource Loaded");
     }
+
 }
