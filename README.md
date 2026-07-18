@@ -97,7 +97,6 @@ cd springboot-profile
 
 ## Project Structure
 
-
 src/main/java/com/sridhar/springboot/
 ├── Config/
 │   ├── ProductionEnvironmentConfig.java
@@ -112,10 +111,16 @@ src/main/java/com/sridhar/springboot/
 └── SpringbootApplication.java
 
 src/main/resources/
-├── application*.yml
+├── application.yml
+├── application-dev.yml
+├── application-qa.yml
+├── application-uat.yml
+├── application-staging.yml
+├── application-prod.yml
 ├── logback-spring.xml
-└── db/migration/
-
+└── db/
+    └── migration/
+    
 ---
 
 ## Production Configuration
