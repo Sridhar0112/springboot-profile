@@ -3,4 +3,4 @@ spring:
     name: student-management-system
 
   profiles:
-    active: prod
+    active: dev

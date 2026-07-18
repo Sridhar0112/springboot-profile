@@ -17,9 +17,11 @@ import java.util.List;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final NotificationService notificationService;
 
-    public StudentService(StudentRepository studentRepository){
+    public StudentService(StudentRepository studentRepository,NotificationService notificationService){
         this.studentRepository = studentRepository;
+        this.notificationService=notificationService;
     }
 
     public Student AddStudent(StudentDto.StudentRequest student){
@@ -35,6 +37,13 @@ public class StudentService {
         s.setEmail(student.getEmail());
         s.setPhone(student.getPhone());
         Student savedstudent= studentRepository.save(s);
+        notificationService.sendNotification(
+                "Hello " + savedstudent.getName() + ",\n\n"
+                        + "Your student account has been created successfully.\n"
+                        + "Student ID: " + savedstudent.getID()
+                        + "\n\nThank you.",
+                savedstudent.getEmail()
+        );
         log.info("Student created successfully. {}", LoggingMaskUtil.mask(savedstudent));
         return savedstudent;
     }
