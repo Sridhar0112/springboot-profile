@@ -1,183 +1,147 @@
-# **Spring-boot Logging Design Document**
+# Student Management System
 
-**Project**: Spring Boot Student Management System  
-**Epic**: Enterprise Logging Enhancement  
-**Version**: 1.0  
-**Date**: July 2026
+**Enterprise Spring Boot Application with Multi-Environment Profiles**
 
----
-
-## **Project Overview**
-
-This document outlines the complete design for transforming the existing Student CRUD application into a professional **Enterprise Spring Boot Logging Showcase**. The enhancement adds comprehensive, production-grade logging while preserving the clean architecture of the original project.
-
-The focus is on observability, traceability, maintainability, and real-world production readiness.
+![Java](https://img.shields.io/badge/Java-17-blue)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen)
+![Maven](https://img.shields.io/badge/Maven-3.9-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## **Epic Description**
+## Overview
 
-Implement a full-featured, enterprise-grade logging system that provides complete visibility into application behavior across all layers, enabling efficient debugging, monitoring, auditing, and support in development and production environments.
+A robust **Student CRUD Management System** built with Spring Boot 3, demonstrating enterprise-grade practices for configuration management using **Spring Profiles**.
 
----
-
-## **Business Value**
-
-- Faster troubleshooting and root cause analysis
-- Better auditability of business operations
-- Production monitoring and alerting readiness
-- Demonstrable best practices for enterprise Spring Boot applications
-- Foundation for future scalability (microservices, distributed tracing)
+This project showcases how to handle different environments (Development, QA, UAT, Staging, and Production) with clean, maintainable, and secure configurations.
 
 ---
 
-## **Logging Features**
+## Key Features
 
-- Centralized logging configuration
-- HTTP request and response logging
-- Layered application logging (Controller, Service, Repository)
-- Global exception logging
-- Structured JSON logging
-- Request correlation and traceability
-- Environment-aware logging (dev/test/prod)
-- Performance and audit logging
-
----
-
-## **Application Layer Logging Strategy**
-
-- **Cross-cutting Layer** (Filter/Interceptor): Handles all HTTP traffic and correlation ID management.
-- **Controller Layer**: API boundary and high-level operation logging.
-- **Service Layer**: Business logic flow, decisions, and timing.
-- **Repository Layer**: Data access operations and performance.
-- **Exception Handler**: Centralized error logging and context enrichment.
-- **Startup Layer**: Application initialization and configuration logging.
+- **Multi-Environment Support** using Spring Boot Profiles (`dev`, `qa`, `uat`, `staging`, `prod`)
+- **Profile-Specific Configurations** (YAML) and conditional beans (`@Profile`)
+- **Structured Logging** with SLF4J + Logback (JSON output, MDC, correlation ID)
+- **Environment-Aware Data Initialization**
+- **Flyway Database Migrations**
+- **Email Service Integration**
+- **Externalized Secrets** ready for Docker, Kubernetes, and Cloud platforms
 
 ---
 
-## **Endpoint-wise Logging Plan**
+## Tech Stack
 
-All endpoints will follow consistent logging:
-
-- **POST /student/add**: Request body summary, creation result, timing.
-- **GET /student/getstudent**: List operation details, record count, timing.
-- **GET /student/getstudent/{id}**: Single record retrieval, not-found cases, timing.
-
-Every request will generate logs at entry, key processing points, and exit.
-
----
-
-## **Enterprise Logging Architecture**
-
-The architecture introduces a dedicated `logging` package for cross-cutting concerns, keeping business logic clean. It uses:
-- SLF4J abstraction
-- Logback as implementation
-- MDC for context propagation
-- Structured JSON output for production
-- Profile-based configuration
-
-This creates a modular, extensible logging platform.
+| Technology              | Version      |
+|-------------------------|--------------|
+| Java                    | 17           |
+| Spring Boot             | 3.5.3        |
+| Spring Data JPA         | -            |
+| Database                | H2 / PostgreSQL |
+| Migration Tool          | Flyway       |
+| Logging                 | SLF4J + Logback + Logstash Encoder |
+| Build Tool              | Maven        |
+| Other                   | Lombok, Validation, Spring Mail |
 
 ---
 
-## **Request Lifecycle Flow**
+## Quick Start
 
-```
-Client Request
-    ↓
-[HTTP Logging Filter] → Assign correlationId + Log Request
-    ↓
-Controller → Log Entry
-    ↓
-Service → Log Business Operation
-    ↓
-Repository → Log Data Access
-    ↓
-Database
-    ↑ (Response)
-Repository → Service → Controller
-    ↓
-[HTTP Logging Filter] → Log Response + Clear MDC
-    ↓
-Client Response
-```
+### 1. Clone the Repository
 
-Exceptions at any layer are captured by the Global Exception Handler with full context and correlation ID.
+git clone https://github.com/Sridhar0112/springboot-profile.git
+cd springboot-profile
+
+### 2. Run the Application
+
+
+# Development (Default)
+./mvnw spring-boot:run
+
+# Specific Environment
+./mvnw spring-boot:run -Dspring.profiles.active=qa
+./mvnw spring-boot:run -Dspring.profiles.active=prod
 
 ---
 
-## **Component Responsibilities**
+## Profiles Configuration
 
-- **HTTP Filter/Interceptor**: Request/response capture and correlation ID lifecycle.
-- **MDC Service**: Context propagation across layers.
-- **Controller Logger**: API boundary events.
-- **Service Logger**: Business rules and orchestration.
-- **Repository Logger**: Data operations.
-- **Global Exception Handler**: Error logging and response enrichment.
-- **Logging Configuration**: Environment-specific behavior.
-- **Utilities**: Common formatting and sanitization.
+| Profile    | Database       | Log Level | Data Seeding | Use Case                     |
+|------------|----------------|-----------|--------------|------------------------------|
+| `dev`      | H2 In-memory   | DEBUG     | Yes          | Local Development            |
+| `qa`       | H2             | INFO      | Yes          | Quality Assurance            |
+| `uat`      | H2             | INFO      | Yes          | User Acceptance Testing      |
+| `staging`  | PostgreSQL     | INFO      | No           | Pre-Production               |
+| `prod`     | PostgreSQL     | INFO      | No           | Production                   |
 
----
-
-## **Log Level Strategy**
-
-- **INFO**: High-level operations, request summaries, successful completions (default for production).
-- **DEBUG**: Detailed flow, inputs/outputs, troubleshooting.
-- **WARN**: Performance warnings, non-critical issues.
-- **ERROR**: All exceptions, failures, and critical issues.
+**Configuration Files**:
+- `application.yml` — Common settings
+- `application-{env}.yml` — Environment overrides
+- `logback-spring.xml` — Logging configuration
+- `db/migration/` — Flyway versioned scripts
 
 ---
 
-## **Production Logging Standards**
+## API Endpoints
 
-- Structured JSON format
-- Correlation ID on every log line
-- Async appenders where applicable
-- Log rotation and size management
-- Externalized configuration
-- Integration-ready for centralized logging platforms (ELK, Loki, etc.)
+**Base URL**: `http://localhost:8080`
 
----
+**Student APIs** (`/api/v1/students`)
 
-## **Security & Performance Considerations**
-
-- **Avoid**: Full payloads in production, sensitive data, excessive debug logging.
-- **Implement**: Data masking, log level controls, performance timing without overhead.
-- Ensure logging does not impact core application performance or expose security risks.
+- `POST /add` — Create student
+- `GET /getstudent` — List all students
+- `GET /getstudent/{id}` — Get student by ID
+- `PUT /update/{id}` — Update student
+- `DELETE /delete/{id}` — Delete student
 
 ---
 
-## **Scalability Approach**
+## Project Structure
 
-The design supports growth by:
-- Using a reusable logging module
-- Standard correlation ID propagation via headers
-- Consistent structured format across services
-- Easy integration with distributed tracing tools
-- Minimal changes required when adding new modules or microservices
+
+src/main/java/com/sridhar/springboot/
+├── Config/
+│   ├── ProductionEnvironmentConfig.java
+│   └── StudentDataInitializer.java
+├── Controller/
+├── Service/
+├── Repository/
+├── Dto/
+├── models/
+├── Exception/
+├── logging/
+└── SpringbootApplication.java
+
+src/main/resources/
+├── application*.yml
+├── logback-spring.xml
+└── db/migration/
+
+
+---
+
+## Production Configuration
+
+Required environment variables for `staging` and `prod`:
+
+env
+DB_HOST=your-db-host
+DB_PORT=5432
+DB_NAME=studentdb
+DB_USERNAME=your-username
+DB_PASSWORD=your-secure-password
+
 
 ---
 
-## **Implementation Blueprint**
+## Author
 
-- Create dedicated `logging` package with filters, utilities, and config.
-- Implement layered logging responsibilities.
-- Configure `logback-spring.xml` with profiles.
-- Ensure all Student CRUD operations are fully traced.
-- Follow the defined success and failure logging flows.
+**Sridhar**  
+Java Spring Boot Backend Developer (2+ Years Experience)
 
 ---
 
-## **Production Readiness Checklist**
-
-- [ ] Structured JSON logging enabled
-- [ ] Correlation ID implemented across all layers
-- [ ] Sensitive data protection in place
-- [ ] Environment-specific configurations
-- [ ] Performance timing and slow operation detection
-- [ ] Log rotation and management configured
-- [ ] Error scenarios fully covered
-- [ ] Documentation and README updated
-- [ ] Ready for centralized log aggregation
+⭐ **If this project helped you, please give it a star!**
 
 ---
+
+**Focus Areas**: Spring Profiles | Environment-Specific Configuration | Production-Grade Logging | Enterprise Best Practices
